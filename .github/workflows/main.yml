@@ -1,0 +1,30 @@
+name: Build APK
+
+on:
+  workflow_dispatch:  # 允许手动触发
+  push:
+    branches: [main]  # 推送代码到 main 分支时自动触发
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # 使用免费的 Linux 虚拟机
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4  # 拉取仓库代码
+
+      - name: 设置 JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'  # 根据项目需求选择 JDK 版本（如 8/11/17）
+
+      - name: 构建 APK
+        run: |
+          chmod +x gradlew  # 赋予 Gradle 执行权限
+          ./gradlew assembleDebug  # 编译 Debug 版 APK
+
+      - name: 上传 APK 产物
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk  # APK 默认路径:cite[2]:cite[6]:cite[9]
