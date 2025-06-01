@@ -23,8 +23,16 @@ jobs:
           chmod +x gradlew  # 赋予 Gradle 执行权限
           ./gradlew assembleDebug  # 编译 Debug 版 APK
 
-      - name: 上传 APK 产物
-        uses: actions/upload-artifact@v3
-        with:
-          name: app-debug.apk
-          path: app/build/outputs/apk/debug/app-debug.apk  # APK 默认路径:cite[2]:cite[6]:cite[9]
+
+				# Upload with v3
+				- uses: actions/upload-artifact@v3
+				  with:
+				    name: my-artifact
+				    path: ./output
+
+				# Download with v2/v3 (not v4+)
+				- uses: actions/download-artifact@v3  # Compatible with v3 uploads
+				  with:
+				    name: my-artifact
+				    path: ./downloaded
+    
